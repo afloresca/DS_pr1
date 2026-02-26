@@ -1,4 +1,4 @@
-package util;
+package edu.uoc.ds.adt.util;
 
 import org.apache.commons.csv.*;
 
