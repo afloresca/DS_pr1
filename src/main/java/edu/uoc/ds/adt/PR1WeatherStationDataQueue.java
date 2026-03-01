@@ -1,21 +1,111 @@
 package edu.uoc.ds.adt;
 
-import edu.uoc.ds.adt.dto.WeatherStationData;
+import edu.uoc.ds.adt.model.WeatherStationData;
+import edu.uoc.ds.adt.model.WeatherStationDataSummaryItem;
 import edu.uoc.ds.adt.sequential.Queue;
+import edu.uoc.ds.adt.sequential.QueueArrayImpl;
+
 import lombok.Data;
 
 @Data
 public class PR1WeatherStationDataQueue {
     public final int CAPACITY = 10;
-    private int size;
-    private int[] ints;
     private Queue<WeatherStationData> queue;
+    private WeatherStationDataSummaryItem weatherStationDataSummaryItem;
 
-    public PR1WeatherStationDataQueue(int size, int[] ints) {
-        this.size = size;
-        this.ints = ints;
+    public PR1WeatherStationDataQueue(int size) {
+        queue = new QueueArrayImpl<>(size);
     }
 
+    public void add(WeatherStationData c) {
+        this.queue.add(c);
+    }
+
+    public WeatherStationData poll() {
+        return this.queue.poll();
+    }
+
+    public double getMeanPrecipitation() {
+        double avg = 0.0;
+        Queue<WeatherStationData> q = getQueue();
+        int size = q.size();
+        if (size == 0) return avg; // avg = 0.0;
+        WeatherStationData[] temp = new WeatherStationData[size];
+        double sum = 0.0;
+
+        // Poll all elements and store them temporarily
+        for (int i = 0; i < size; i++) {
+            WeatherStationData data = q.poll();
+            sum += data.getPrecipitation();
+            temp[i] = data;
+        }
+
+        // Restore the queue
+        for (WeatherStationData data : temp) {
+            q.add(data);
+        }
+
+        avg =  sum / size;
+        return avg;
+    }
+
+    public double getMeanAvgAirTemperature() {
+        double avg = 0.0;
+        Queue<WeatherStationData> q = getQueue();
+        int size = q.size();
+        if (size == 0) return avg; // avg = 0.0;
+
+        WeatherStationData[] temp = new WeatherStationData[size];
+        double sum = 0.0;
+
+        for (int i = 0; i < size; i++) {
+            WeatherStationData data = q.poll();
+            sum += data.getAvgAirTemperature();
+            temp[i] = data;
+        }
+
+        for (WeatherStationData data : temp) {
+            q.add(data);
+        }
+
+        avg = sum / size;
+        return avg;
+    }
+
+    /**
+     * Builds a summary item for a given year, containing accumulated precipitation,
+     * mean average air temperature, and number of records for that year.
+     *
+     * @param year the year to filter by
+     * @return a WeatherStationDataSummaryItem with the computed values
+     */
+    public WeatherStationDataSummaryItem getWeatherStationDataSumaryItem(int year) {
+        Queue<WeatherStationData> q = getQueue();
+        int size = q.size();
+
+        WeatherStationData[] temp = new WeatherStationData[size];
+        double precipSum = 0.0;
+        double tempSum = 0.0;
+        int count = 0;
+
+        // Poll all elements, filter by year, and accumulate
+        for (int i = 0; i < size; i++) {
+            WeatherStationData data = q.poll();
+            if (data.getLastUpdated().getYear() == year) {
+                precipSum += data.getPrecipitation();
+                tempSum += data.getAvgAirTemperature();
+                count++;
+            }
+            temp[i] = data;
+        }
 
 
+        for (WeatherStationData data : temp) {
+            q.add(data);
+        }
+
+        double meanTemp = count == 0 ? 0.0 : tempSum / count;
+        // Create the summary item (constructor assumed to accept these three values)
+        return new WeatherStationDataSummaryItem(precipSum, meanTemp, count);
+    }
 }

@@ -1,6 +1,5 @@
 package edu.uoc.ds.adt;
 
-import edu.uoc.ds.adt.dto.WeatherStationData;
 import edu.uoc.ds.adt.model.WeatherStationData;
 import edu.uoc.ds.adt.model.WeatherStationDataSummaryItem;
 import edu.uoc.ds.adt.util.CSVUtil;
@@ -14,13 +13,13 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class PR1WheatherStationDataQueueTest {
+public class PR1WeatherStationDataQueueTest {
     private static final int SIZE  = 1304;
     PR1WeatherStationDataQueue pr1q;
 
     @Before
     public void setUp() {
-        this.pr1q = new PR1WeatherStationDataQueue(SIZE, new int[]{2023, 2024, 2025, 2026});
+        this.pr1q = new PR1WeatherStationDataQueue(SIZE);
         assertNotNull(this.pr1q.getQueue());
         fillQueue();
     }
@@ -70,22 +69,22 @@ public class PR1WheatherStationDataQueueTest {
         WeatherStationDataSummaryItem dataInfo1 = this.pr1q.getWeatherStationDataSumaryItem(2023);
         Assert.assertEquals(1381.30, dataInfo1.getAccumulatedPrecipitation(),0.05);
         Assert.assertEquals(16.17, dataInfo1.getMeanAvgAirTemperature(),0.05);
-        Assert.assertEquals(1213, dataInfo1.numRows());
+        Assert.assertEquals(1213, dataInfo1.getNumRows());
 
         WeatherStationDataSummaryItem dataInfo2 = this.pr1q.getWeatherStationDataSumaryItem(2024);
         Assert.assertEquals(24.60, dataInfo2.getAccumulatedPrecipitation(),0.05);
         Assert.assertEquals(7.91, dataInfo2.getMeanAvgAirTemperature(),0.05);
-        Assert.assertEquals(19, dataInfo2.numRows());
+        Assert.assertEquals(19, dataInfo2.getNumRows());
 
         WeatherStationDataSummaryItem dataInfo3= this.pr1q.getWeatherStationDataSumaryItem(2025);
         Assert.assertEquals(0.60, dataInfo3.getAccumulatedPrecipitation(),0.05);
         Assert.assertEquals(13.08, dataInfo3.getMeanAvgAirTemperature(),0.05);
-        Assert.assertEquals(46, dataInfo3.numRows());
+        Assert.assertEquals(46, dataInfo3.getNumRows());
 
         WeatherStationDataSummaryItem dataInfo4= this.pr1q.getWeatherStationDataSumaryItem(2026);
         Assert.assertEquals(14.0, dataInfo4.getAccumulatedPrecipitation(),0.05);
         Assert.assertEquals(17.74, dataInfo4.getMeanAvgAirTemperature(),0.05);
-        Assert.assertEquals(26, dataInfo4.numRows());
+        Assert.assertEquals(26, dataInfo4.getNumRows());
     }
 
 
