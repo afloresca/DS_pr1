@@ -79,7 +79,7 @@ public class PR1WeatherStationDataQueue {
      * @param year the year to filter by
      * @return a WeatherStationDataSummaryItem with the computed values
      */
-    public WeatherStationDataSummaryItem getWeatherStationDataSumaryItem(int year) {
+    public WeatherStationDataSummaryItem getWeatherStationDataSummaryItem(int year) {
         Queue<WeatherStationData> q = getQueue();
         int size = q.size();
 
