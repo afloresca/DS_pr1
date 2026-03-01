@@ -21,10 +21,10 @@ public class PR1WeatherStationDataQueue {
         this.queue.add(c);
     }
 
-    public WeatherStationData poll() {
-        return this.queue.poll();
-    }
-
+    /**
+     * It calculates Mean precipitation
+     * @return double value of mean precipitation
+     */
     public double getMeanPrecipitation() {
         double avg = 0.0;
         Queue<WeatherStationData> q = getQueue();
@@ -40,7 +40,6 @@ public class PR1WeatherStationDataQueue {
             temp[i] = data;
         }
 
-        // Restore the queue
         for (WeatherStationData data : temp) {
             q.add(data);
         }
@@ -49,6 +48,10 @@ public class PR1WeatherStationDataQueue {
         return avg;
     }
 
+    /**
+     * This method calculates Mean Avg Air Temperature
+     * @return double with mean average air temperature
+     */
     public double getMeanAvgAirTemperature() {
         double avg = 0.0;
         Queue<WeatherStationData> q = getQueue();
@@ -105,7 +108,7 @@ public class PR1WeatherStationDataQueue {
         }
 
         double meanTemp = count == 0 ? 0.0 : tempSum / count;
-        // Create the summary item (constructor assumed to accept these three values)
+
         return new WeatherStationDataSummaryItem(precipSum, meanTemp, count);
     }
 }
